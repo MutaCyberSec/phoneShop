@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 col-md-offset-4">
+            <h2>             
+                Here Are Em Pending Phones</h2>
+            <br>
+            <h2>Phones Awaiting Service </h2>
+            <br>
+            </div>
+            <div class="col-md-3 col-md-offset-4">
+             
+
+                {%for x in phones%}
+                Phone Brand :: {{x.brand}}
+                <br>
+                phone Model :: {{x.model}}
+                <br>
+                Problem :: {{x.title}}
+                <br>
+                Problem Description :: {{x.desc}}
+                <br>
+                Date In :: {{x.date}}
+
+                <form method=POST action="{{ url_for('pending_phones')}}">
+                    <input type="hidden" name = "id" value={{x.date}}>
+                      <button type = "submit" onClick="document.location.reload(true)">Mark As Finished </button>  
+                </form>
+
+
+                {% endfor %}
+
+                   
+        </div></div>
+    </div>
+
+{% endblock %}

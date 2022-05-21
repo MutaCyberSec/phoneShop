@@ -1,0 +1,24 @@
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Forgot Password</title>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="box">
+        <div class="innerbox">
+            <form action="recover.html">
+                <h4>
+                    It seems you forgot your Passwird or Psername enter your email for password reset
+                </h4>
+                <h3>Enter Your Email</h3>
+                <input type="email" name="email" placeholder="Email Address" />
+                <input type="submit" value="Send" />
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
