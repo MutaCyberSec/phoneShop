@@ -1,0 +1,39 @@
+
+{% extends "layout.html" %}
+{% block body %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 col-md-offset-4">
+            <h2>             
+                Notified Customers</h2>
+            <br>
+           
+            </div>
+            <div class="col-md-3 col-md-offset-4">
+             
+
+                {%for x in phone%}
+                Phone Brand :: {{x.brand}}
+                <br>
+                phone Model :: {{x.model}}
+                <br>
+                Problem :: {{x.title}}
+                <br>
+                Problem Description :: {{x.desc}}
+                <br>
+                Date In :: {{x.date}}
+
+                <form method=POST action="{{ url_for('sent_notif')}}">
+                    <input type="hidden" name = "id" value={{x.spec_id}}>
+                      <button type = "submit" onClick="document.location.reload(true)">Mark Done </button>  
+                </form>
+
+                {% endfor %}
+
+                   
+        </div></div>
+    </div>
+
+{% endblock %}

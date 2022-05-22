@@ -25,8 +25,8 @@
                 <br>
                 Date In :: {{x.date}}
 
-                <form method=POST action="{{ url_for('pending_phones')}}">
-                    <input type="hidden" name = "id" value={{x.date}}>
+                <form method=POST action="{{ url_for('pending_phone')}}">
+                    <input type="hidden" name = "id" value={{x.spec_id}}>
                       <button type = "submit" onClick="document.location.reload(true)">Mark As Finished </button>  
                 </form>
 

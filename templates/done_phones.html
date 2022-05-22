@@ -26,7 +26,7 @@
                 Date In :: {{x.date}}
 
                 <form method=POST action="{{ url_for('done_phones')}}">
-                    <input type="hidden" name = "id" value={{x.date}}>
+                    <input type="hidden" name = "id" value={{x.spec_id}}>
                       <button type = "submit" onClick="document.location.reload(true)">Notify User </button>  
                 </form>
 

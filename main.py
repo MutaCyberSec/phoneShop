@@ -294,9 +294,11 @@ def add_phone():
         
         cause = request.form['cause']
         
+        spec_id = md5_crypt.hash(owner_number)
+        
         
         phones.insert_one({"owner" : owner , "owner_number" : owner_number ,  "brand" :brand ,"model": model , "date" :date , "title" : title ,
-                           "desc" : desc , "cause" : cause , "status" : 1
+                           "desc" : desc , "cause" : cause , "status" : 0 , "spec_id" : spec_id , "notified" : 0
                            })
         return redirect(url_for('pending_phone'))
         
@@ -307,12 +309,10 @@ def pending_phone():
     pending = phones.find({"status" : 0})
     if request.method == 'POST':
         id = request.form['id']
-        phones.find_one_and_update({"date":"id"} ,{ '$set' :  {"status": 1}}) 
+        phones.find_one_and_update({"spec_id":id} ,{ '$set' :  {"status": 1}}) 
         
         return redirect(url_for('done_phones'))
 
-    
-    
     
     return render_template('pending_phone.html' , phones = pending)
 
@@ -321,13 +321,13 @@ def done_phones():
     done =  phones.find({"status" : 1})
     if request.method == 'POST':
         id = request.form['id']
-        de_no = phones.find_one({'date' : id})
+        de_no = phones.find_one({'spec_id' : id})
         no = de_no['owner_number']
         #sms sending logic here.
         def send_sms(number):
             pass
         send_sms(no)
-        phones.find_one_and_update({"date":"id"} ,{ '$set' :  {"notified": 1}}) 
+        phones.find_one_and_update({"spec_id":id} ,{ '$set' :  {"notified": 1}}) 
 
         return redirect(url_for('sent_notif'))
          
@@ -335,10 +335,25 @@ def done_phones():
 
 @app.route('/sent_notif/' , methods =['POST','GET'])
 def sent_notif():
-    
+    session.pop('phone', None)
     sent = phones.find({"notified" : 1})
+    if request.method == 'POST':
+        id = request.form['id']
+        session['phone'] = id
+        return redirect(url_for('return_phone'))
     
-    return render_template('sent_notif.html')
+    return render_template('sent_notif.html', phone = sent)
+
+
+@app.route('/return_phone/' , methods=['POST','GET'])
+def return_phone():
+    ident = session['phone']
+    the_phone = phones.find({"spec_id" : ident})
+
+    
+    return render_template('return_phone.html' , phone = the_phone , id = ident)
+
+
 
 if __name__ == '__main__':
     app.secret_key = 'private_tings'
